@@ -55,7 +55,6 @@ public class ArticleController {
 
     @GetMapping("articles/{id}")    // 해당 url요청을 처리 선언
     public String show(@PathVariable Long id, Model model){   // url에서 id를 변수로 받아옴
-        log.info("id = "+ id);
         // 컨트롤러 -처리흐름 1. id로 데이터가져옴 2. 가져온 데이터 모델에 등록 3. 보여줄 페이지설정
         // 1. id로 데이터를 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
@@ -67,7 +66,6 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}/edit")      // 해당 url요청을 처리
     public String edit(@PathVariable Long id, Model model) {
-        log.info("id = "+ id);
         // 수정할 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
         // 모델에 데이터 등록
@@ -79,10 +77,8 @@ public class ArticleController {
 
     @PostMapping("/articles/update")
     public String update(ArticleForm  form){
-        log.info(form.toString());
         // 1. Dto를 변환! Entity!로
         Article articleEntity = form.toEntity();
-        log.info(articleEntity.toString());
         // 2. 엔티티를 db로 저장
         // 2-1 : db에서 기존 데이터를 가져옴
         Article target =articleRepository.findById(articleEntity.getId()).orElse(null);
@@ -90,7 +86,6 @@ public class ArticleController {
         if(target!=null) {
             articleRepository.save(articleEntity);
             log.info(target.toString());
-
         }
         // 3. 수정 결과 페이지로 연결
         return "redirect:/articles/"+articleEntity.getId();
@@ -98,10 +93,8 @@ public class ArticleController {
 
     @GetMapping("articles/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes rttr){
-        log.info("삭제 요청 들어왔습니다");
         // 1. 삭제 대상을 찾아야한다 
         Article target = articleRepository.findById(id).orElse(null);
-        log.info(target.toString());
         // 2. 대상을 삭제
         if(target != null){
             articleRepository.delete(target);
