@@ -40,16 +40,12 @@ public class ArticleController {
     public String createArticle(ArticleForm form){
         // 밑의 기능을 로깅으로 대처
         //System.out.println(form.toString());      실제 서버에서 이렇게하면 과부화가 크고 좋지않다.
-        log.info(form.toString());
         // 1. Dto를 변환! Entity!로
         Article article =  form.toEntity();
         //System.out.println(article.toString());
-        log.info(article.toString());
         // 2. Repository에게 Entity를 DB안에 저장시키기
         Article saved = articleRepository.save(article);
         //System.out.println(saved.toString());
-        log.info(saved.toString());
-
         return "redirect:/articles/"+saved.getId();
     }
 
